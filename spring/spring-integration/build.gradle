@@ -1,0 +1,7 @@
+apply from : root_gradle
+
+dependencies {
+    compile project(':spring')
+}
+sourceSets {
+}

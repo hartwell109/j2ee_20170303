@@ -1,0 +1,43 @@
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'io.spring.gradle:dependency-management-plugin:1.0.0.RELEASE'
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+//    apply plugin: 'war'
+    apply plugin: 'io.spring.dependency-management'
+
+    buildscript {
+        repositories {
+            jcenter()
+        }
+        dependencies {
+            classpath 'io.spring.gradle:dependency-management-plugin:1.0.0.RELEASE'
+        }
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom 'io.spring.platform:platform-bom:Athens-SR3'
+        }
+    }
+    sourceCompatibility = JavaVersion.VERSION_1_8
+
+    repositories {
+        jcenter()
+    }
+}
+
+
+ext.projectIds = [group: 'com.cn', version: '1.1']
+ext.workset_home = 'd:/'
+ext.root_gradle = "$rootDir/build.gradle"
+ext.warFile = project.projectDir.toString() + "/build/libs/" + project.name + "-" + project.version + ".war"
+
+

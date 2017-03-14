@@ -1,0 +1,55 @@
+apply plugin: 'com.bmuschko.cargo'
+apply plugin: 'com.bmuschko.cargo-base'
+apply plugin: 'war'
+apply from: root_gradle
+
+/**
+ * Gradle plugin that provides deployment capabilities to local and remote containers via Cargo.
+ */
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    /**
+     * com.bmuschko
+     * 2.1.1/2.2.1
+     */
+    def gradleCargoPluginVersion = '2.2.1'
+    dependencies {
+        classpath("com.bmuschko:gradle-cargo-plugin:$gradleCargoPluginVersion")
+    }
+}
+
+dependencies {
+    compile project(':hibernate')
+    def cargoVersion = '1.4.5'
+    cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
+            "org.codehaus.cargo:cargo-ant:$cargoVersion"
+}
+/**
+ * Cargo is a thin wrapper that allows you to manipulate various type of application containers (Java EE and others) in a standard way.
+ */
+cargo {
+    containerId = 'tomcat8x'
+    port = 8080
+
+    def tomcatDir = "d:/apache-tomcat-8.0.41"
+    def warFile = "$rootDir/build/libs/" + "j2ee_20170208-1.0.war"
+
+    deployable {
+        file = file(warFile)
+        context = "j2ee_20170208"
+    }
+
+    local {
+        homeDir = file("$tomcatDir")
+        outputFile = file('build/output.log')
+    }
+
+    remote {
+        username = 'tomcat'
+        password = 'admin'
+        hostname = "localhost"
+    }
+}

@@ -1,0 +1,8 @@
+apply from : root_gradle
+
+dependencies {
+    compile 'org.springframework:spring-core'
+}
+
+sourceSets {
+}
